@@ -2,13 +2,13 @@
 
 ## Overview
 
-This repository contains the implementaion of several domain adaptation algorithms:
-[coral](https://arxiv.org/abs/1607.01719)
-[cotmix](https://arxiv.org/abs/2212.01555)
-[dann](https://arxiv.org/abs/1505.07818)
-[cdan](https://arxiv.org/abs/1705.10667)
-[dirt](https://arxiv.org/abs/1802.08735)
-[AdvSKM](https://www.ijcai.org/proceedings/2021/0378.pdf)
+This repository contains the implementaion of several domain adaptation algorithms: <br>
+[coral](https://arxiv.org/abs/1607.01719) <br>
+[cotmix](https://arxiv.org/abs/2212.01555) <br>
+[dann](https://arxiv.org/abs/1505.07818) <br>
+[cdan](https://arxiv.org/abs/1705.10667) <br>
+[dirt](https://arxiv.org/abs/1802.08735) <br>
+[AdvSKM](https://www.ijcai.org/proceedings/2021/0378.pdf) <br>
 
 and we are working on adding more...
 
