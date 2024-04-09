@@ -64,7 +64,7 @@ def parse_args():
     parser.add_argument('--loss-fn', type=str, default='l1_loss')
     parser.add_argument('--device',type=str,default='cuda:0',help='')
     # DA-Method
-    parser.add_argument("--da_method", type=str, default=None) ### 'direct', 'coral', 'cotmix', 'dann'
+    parser.add_argument("--da_method", type=str, default=None) ### 'direct', 'coral', 'cotmix', 'dann', 'dirt', 'advSKM'
     parser.add_argument('--temporal_shift', type=int, default=32)
     parser.add_argument('--mix_ratio', type=float, default=0.7)
     parser.add_argument('--aux_weight', type=float, default=1)
