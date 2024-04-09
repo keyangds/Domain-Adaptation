@@ -1,0 +1,15 @@
+dataset_name: 'air'
+
+epochs: 30
+samples_per_epoch: 5120  # 160 batch of 32
+batch_size: 32
+loss_fn: mse_loss
+detrend: False
+scale: True
+scaling_axis: 'channels'
+
+model_name: 'brits'
+input_size: 24
+d_in: 27
+d_hidden: 128
+scaled_target: True

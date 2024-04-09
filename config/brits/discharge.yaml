@@ -1,0 +1,14 @@
+dataset_name: 'discharge'
+
+epochs: 30
+samples_per_epoch: 5120  # 160 batch of 32
+batch_size: 32
+loss_fn: mse_loss
+detrend: False
+scale: True
+scaling_axis: 'channels'
+
+model_name: 'brits'
+d_in: 20
+d_hidden: 128
+scaled_target: True
