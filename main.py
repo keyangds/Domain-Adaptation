@@ -28,6 +28,8 @@ def get_model(model_str):
         model, filler = models.BRITSNet, 'britsfiller'
     elif model_str == 'transformer':
         model, filler = models.TransformerImputer, 'filler'
+    elif model_str == 'gnn':
+        model, filler = models.SpatioTemporalImputer, 'graphfiller'
     else:
         raise ValueError(f'Model {model_str} not available.')
  
@@ -64,13 +66,12 @@ def parse_args():
     parser.add_argument('--loss-fn', type=str, default='l1_loss')
     parser.add_argument('--device',type=str,default='cuda:0',help='')
     # DA-Method
-    parser.add_argument("--da_method", type=str, default=None) ### 'direct', 'coral', 'cotmix', 'dann', 'dirt', 'advSKM'
+    parser.add_argument("--da_method", type=str, default=None) ### 'direct', 'coral', 'cotmix', 'dann'
     parser.add_argument('--temporal_shift', type=int, default=32)
     parser.add_argument('--mix_ratio', type=float, default=0.7)
     parser.add_argument('--aux_weight', type=float, default=1)
 
     known_args, _ = parser.parse_known_args()
- 
 
     # args = parser.parse_args([])
     # for arg, value in vars(args).items():
@@ -82,6 +83,7 @@ def parse_args():
     if args.config is not None:
         with open(args.config, 'r') as fp:
             config_args = yaml.load(fp, Loader=yaml.FullLoader)
+ 
         for arg in config_args:
             setattr(args, arg, config_args[arg])
 
@@ -97,12 +99,13 @@ def get_dataset(dataset_name, fixed_mask=False):
     elif dataset_name == 'discharge':
         dataset = datasets.MissingValuesDischarge(p_fault=0., p_noise=0.25, fixed_mask=fixed_mask)
         target_dataset = datasets.MissingValuesTarget(p_fault=0., p_noise=0.25, fixed_mask=fixed_mask)
+
     elif dataset_name == 'pems':
         dataset = datasets.MissingValuesPems08(p_fault=0., p_noise=0.25, fixed_mask=fixed_mask)
         target_dataset = datasets.MissingValuesPems04(p_fault=0., p_noise=0.25, fixed_mask=fixed_mask)
     else:
         raise ValueError(f"Dataset {dataset_name} not available in this setting.")
-    return dataset,target_dataset
+    return dataset, target_dataset
 
 if __name__ == '__main__':
     args, filler_name = parse_args()
@@ -154,7 +157,15 @@ if __name__ == '__main__':
     elif args.model_name == 'brits':
         model_cls = models.BRITSNet
         model_kwargs = {'d_in': source.d_in, 'd_hidden': args.d_hidden}
-
+    elif args.model_name == 'gnn':
+        model_cls = models.SpatioTemporalImputer
+        model_kwargs = {'input_size': args.input_size,
+        'output_size': args.output_size,
+        'num_nodes': source.d_in,
+        'num_gnn_channels': args.num_gnn_channels,
+        'num_channels': args.num_channels,
+        'rnn_kernel_size': args.rnn_kernel_size,
+        'dropout': args.dropout}
 
     scheduler_class = CosineAnnealingLR if args.use_lr_schedule else None
     filler_params = {
@@ -178,9 +189,11 @@ if __name__ == '__main__':
     if filler_name == 'filler':
         filler = fillers.Filler(model_cls, model_kwargs, **filler_params)
     elif filler_name == 'britsfiller':
-    
         filler = fillers.BRITSFiller(model_cls, model_kwargs, **filler_params)
-       
+    elif filler_name == 'graphfiller':
+        filler_params['adj_matrix'] = source_dataset.get_similarity()
+        filler = fillers.GRAPHFiller(model_cls, model_kwargs, **filler_params)
+
     # Ensure the directory exists
     save_dir = os.path.join('./trained_model', args.dataset_name, args.model_name)
     os.makedirs(save_dir, exist_ok=True)

@@ -105,7 +105,7 @@ class MissingValuesPems08(Pems08):
                                 rng=self.rng)
         if self.fixed_mask == False:
             self.eval_mask = np.concatenate((eval_mask,eval_mask_block),axis=0)
-            # np.save('./datasets/PEMS/pems08_mask.npy', self.eval_mask)
+            np.save('./datasets/PEMS/pems08_mask.npy', self.eval_mask)
         else:
             self.eval_mask = np.load('./datasets/PEMS/pems08_mask.npy')
 

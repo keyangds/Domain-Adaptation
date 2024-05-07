@@ -38,6 +38,7 @@ class TemporalBlock(nn.Module):
 
 class TemporalConvNet(nn.Module):
     def __init__(self, num_inputs, num_channels, kernel_size=2, dropout=0.2):
+     
         super(TemporalConvNet, self).__init__()
         layers = []
         num_levels = len(num_channels)
@@ -61,7 +62,6 @@ class TCNImputer(nn.Module):
         self.tcn = TemporalConvNet(input_size, num_channels, kernel_size, dropout)
         self.linear = nn.Linear(num_channels[-1], output_size)
   
-
     def forward(self, x, mask):
         # x: input tensor of shape [batch, channels, nodes]
         # mask: binary mask tensor of shape [batch, channels, nodes] indicating NaNs (0 for NaNs, 1 for valid data)
@@ -69,7 +69,6 @@ class TCNImputer(nn.Module):
         x_tcn = self.tcn(x)
         x_imputed = self.linear(x_tcn.transpose(1, 2)).transpose(1, 2)
         # Output has the same shape as input: [batch, channels, nodes]
-        # Replace NaNs in original input with predictions from TCN
         return x_imputed, x_tcn
 
     @staticmethod

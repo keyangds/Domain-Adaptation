@@ -1,0 +1,18 @@
+dataset_name: 'discharge'  # Define your dataset name
+
+epoch: 50
+batch_size: 32  # Adjusted to match your description
+loss_fn: mse_loss  # Mean Squared Error for imputation
+scale: True
+scaling_axis: 'nodes'  # Scaling per node features if applicable
+
+model_name: 'gnn'
+num_nodes: 20
+input_size: 24  
+output_size: 24
+d_hidden: 64
+num_gnn_channels: [32, 64]  # Channels for each GNN layer
+num_channels: 64 # Channels for RNN layers
+rnn_kernel_size: 3  # Kernel size for temporal blocks
+dropout: 0.3  # Dropout rate for regularization
+inject_noise: true  # Whether to add noise during training for robustness

@@ -1,0 +1,21 @@
+dataset_name: 'air'  # Define your dataset name
+
+epoch: 50
+samples_per_epoch: 5120  # Based on your setup: 160 batches of size 32
+batch_size: 32  # Adjusted to match your description
+loss_fn: mse_loss  # Mean Squared Error for imputation
+scale: True
+scaling_axis: 'nodes'  # Scaling per node features if applicable
+
+model_name: 'gnn'
+input_size: 24  
+output_size: 24  
+num_gnn_channels: [16, 32]  # Channels for each GNN layer
+num_rnn_channels: [64, 128]  # Channels for RNN layers
+gnn_kernel_size: 1  # Kernel size for graph convolution
+rnn_kernel_size: 3  # Kernel size for temporal blocks
+dropout: 0.3  # Dropout rate for regularization
+inject_noise: true  # Whether to add noise during training for robustness
+
+temporal_aggregation: 'mean'  # How temporal data is aggregated ('mean', 'max', etc.)
+spatial_aggregation: 'mean'  # How spatial embeddings are aggregated

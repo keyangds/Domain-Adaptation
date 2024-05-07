@@ -161,7 +161,7 @@ class SupConLoss(torch.nn.Module):
         return loss
         
 def Coral(source, target): 
-
+    # [batch, embeddings, nodes]
     source = source.reshape(source.shape[0]*source.shape[2], source.shape[1])
     #source = source.reshape(source.shape[0]*source.shape[1],-1)
 

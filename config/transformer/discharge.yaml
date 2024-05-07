@@ -1,0 +1,17 @@
+dataset_name: 'discharge'
+
+epoch: 20
+batch_size: 64
+loss_fn: mse_loss
+scale: True
+scaling_axis: 'channels'
+
+model_name: 'transformer'
+input_size: 24  # Assuming this aligns with your architecture's requirements
+output_size: 24  # Assuming this is intended for your model
+d_model: 512  # Embedding dimension of the model
+nhead: 8  # Number of heads in the multiheadattention models
+num_encoder_layers: 6  # Number of sub-encoder-layers in the encoder
+dim_feedforward: 1024  # Dimension of the feedforward network model in nn.TransformerEncoder
+dropout: 0.1  # Dropout value
+inject_noise: true  # Assuming you want to keep this option from your TCN configuration

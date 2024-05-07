@@ -1,0 +1,19 @@
+dataset_name: 'air'
+
+fixed_mask: True
+epoch: 10
+samples_per_epoch: 5120  # 160 batch of 32
+batch_size: 64
+loss_fn: mse_loss
+scale: True
+scaling_axis: 'channels'
+
+model_name: 'transformer'
+d_in: 10                  # Number of input channels (features)
+d_model: 256              # Size of the model (embedding dimension)
+nhead: 8                  # Number of heads in the multiheadattention
+num_encoder_layers: 6     # Number of Transformer encoder layers
+dim_feedforward: 2048     # Dimension of the feedforward network model in Transformer
+dropout: 0.2              # Dropout rate
+inject_noise: true        # If noise injection is used (may require custom implementation in Transformer model)
+da_method: 'coral'        # Domain adaptation method

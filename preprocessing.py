@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 import numpy as np
-
+import torch
 
 class AbstractScaler(ABC):
 
@@ -35,7 +35,6 @@ class AbstractScaler(ABC):
         return self.transform(x)
 
     def to_torch(self):
-        import torch
         for p in self.params():
             param = getattr(self, p)
             param = np.atleast_1d(param)
